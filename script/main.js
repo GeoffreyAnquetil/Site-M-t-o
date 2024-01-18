@@ -28,9 +28,14 @@ function init(){
 	buttonNext.addEventListener("click", nextDay);
 	let buttonPrevious = document.getElementById("btnPrevious");  // idem pour le bouton Next et la fonction nextDay
 	buttonPrevious.addEventListener("click", previousDay);
-	fetch(apiURL1)  // Une requête est fête à l'api 1 
-		.then((response) => response.json()) // On convertie la réponse en json
-		.then((data) => putDataInTab(data,hour,daysSkipped)) // Que l'on exploite ensuite dans la fonction putDataInTab
+	fetch(apiURL1)
+        .then((response) => response.json())
+        .then((data) => {
+            putDataInTab(data, hour, daysSkipped);
+            updateTemperatureChart(data, hour, daysSkipped);
+        })
+        .catch((error) => console.error('Erreur lors du chargement des données :', error));
+	
 }
 
 /*  Procédure prenant en argument :
@@ -117,19 +122,36 @@ function convertHour(heure){
 
 /*  Procédure ne prenant aucun argument en entrée et ayant pour effet de mettre à jour le tableau en prenant en compte les choix effectués par
 	l'utilisateur */
-function updateTab(){
-	hour = document.getElementById("hour-selector").value;  // hour récupère la valeur(str) de l'élément input type select HTML selectionné par l'utilisateur
-	hour = parseInt(hour);  // parseInt convertie hour de str à int
-	city = document.getElementById("input_text").value;  // city récupère la valeur(str) dans l'élément input type text HTML rentrée par l'utilisateur
-	apiURL2 = "https://api-adresse.data.gouv.fr/search/?q="+city; // city est ajoutée à l'URL incomplète de l'api 2 afin de récupérer les coordonnées de la ville
-	fetch(apiURL2) // On fetch l'api 2
-		.then((response) => response.json())  // La réponse est mise au format json
-		.then((data) => { getCoord(data);  // On récupère les coordonnées de la ville choisie via les données json
-						  updateURL1(xCoord, yCoord); })  // On modifie l'url de l'api 1 pour pouvoir le fetch avec les nouvelles coordonnées
-		.then(()=> {fetch(apiURL1)  // On fetch l'api 1
-						.then((response) => response.json()) // La réponse est mise au format json
-						.then((data) => putDataInTab(data,hour,daysSkipped))})  // Puis toutes les données acquises jusqu'ici permettent d'actualiser le tableau
-}
+	function updateTab() {
+		hour = document.getElementById("hour-selector").value;
+		hour = parseInt(hour);
+		city = document.getElementById("input_text").value;
+		apiURL2 = "https://api-adresse.data.gouv.fr/search/?q=" + city;
+		fetch(apiURL2)
+			.then((response) => response.json())
+			.then((data) => {
+				getCoord(data);
+				updateURL1(xCoord, yCoord);
+			})
+			.then(() => {
+				fetch(apiURL1)
+					.then((response) => response.json())
+					.then((data) => updateTemperatureChart(data, hour, daysSkipped))
+			});
+	}
+	
+	// Cette fonction est appelée pour mettre à jour le graphique lorsque le bouton Actualiser est cliqué
+	function updateTemperatureChart(data, hour, daysSkipped) {
+		// Met à jour les données du tableau en fonction des choix de l'utilisateur
+		putDataInTab(data, hour, daysSkipped);
+	
+		// Extrait les données de température pour la journée
+		var temperatureData = extractTemperatureData(data);
+	
+		// Affiche le graphique des températures pour la journée
+		displayTemperatureChart(temperatureData);
+	}
+	
 
 /*  Procédure ne prenant aucun argument en entrée et ayant pour effet de supprimer l'intérieur du tableau HTML */
 function deleteTab(){
