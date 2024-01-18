@@ -1,0 +1,89 @@
+<!-- 
+	Les commentaires HTML s'écrivent ainsi 
+	Les fichiers HTML5 sont introduits par cette balise DOCTYPE qui ne constitue pas un élément HTML
+-->
+<!DOCTYPE html>
+
+<!-- Ouverture de l'élément HTML englobant-->
+<html>
+	
+	<!-- Ouverture de l'élément head-->
+	<head>
+		<!-- l'élément head contient des méta-données. Ce sont des inforamtions à destination de l'interpréteur HTML du navigateur. Ici, il s'agit de dire comment sont encodés les caractères (en UTF-8).-->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+		<!-- chaîne de texte qui apparaît dans l'onglet. -->
+    	<title>Météo Lannion</title>
+    	
+    	<!-- lien avec la (les) page(s) de style. Suivez le chemin relatif pour -->
+    	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+
+
+    	<!-- 
+    		lien vers la (les) documents de scripts. 
+    		A la lecture de cette ligne, le navigateur va chercher la ressource (le script) et recopier son contenu à cet endroit précis puis lancer son interprétation.
+    		Suivez le chemin relatif pour lire le code JS. 
+    		Dans le cas d'un script tiers hébergé sur un site distant, on peut mettre l'URL de la ressource.
+    	-->
+    	<script src="./script/main.js" type="text/javascript"></script>
+
+  	<!-- Fermeture de l'élément head-->
+  	</head>
+
+	<!-- Ouverture de l'élément body.-->
+	<body>
+		<div class="container" style=background-color:white>
+			<table id='theTable' class="zui-table">
+				<h1 id="tabTitle"> Météo à Lannion <h1>
+			</table>
+
+			<form>
+				<label for="city-selector">Choisissez la ville :
+					<input type="text" name="city-selector" id="input_text" value="Lannion">
+				</label>
+
+				<label for="hour-selector">Choisissez l'heure :</label>
+					<select name="hours" id="hour-selector">
+					    <option value="-1">--Choisissez une heure--</option>
+						<option value="0">00h</option>
+					    <option value="1">01h</option>
+					    <option value="2">02h</option>
+						<option value="3">03h</option>
+					    <option value="4">04h</option>
+						<option value="5">05h</option>
+					    <option value="6">06h</option>
+						<option value="7">07h</option>
+					    <option value="8">08h</option>
+						<option value="9">09h</option>
+					    <option value="10">10h</option>
+						<option value="11">11h</option>
+					    <option value="12">12h</option>
+						<option value="13">13h</option>
+					    <option value="14">14h</option>
+						<option value="15">15h</option>
+					    <option value="16">16h</option>
+						<option value="17">17h</option>
+					    <option value="18">18h</option>
+						<option value="19">19h</option>
+					    <option value="20">20h</option>
+						<option value="21">21h</option>
+					    <option value="22">22h</option>
+						<option value="23">23h</option> 
+					</select>
+					
+			</form>
+
+			<input type="button" value="Actualiser" id="btnUpdate">
+			
+			<input type="button" value="Jour précédent" id="btnPrevious">
+
+			<input type="button" value="Jour suivant" id="btnNext">
+
+		</div>
+
+	</body>
+
+</html>
+
