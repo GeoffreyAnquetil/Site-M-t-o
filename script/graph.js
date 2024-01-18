@@ -6,7 +6,7 @@ function extractTemperatureData(data) {
     };
 
     // Assume que les données de température sont disponibles dans data.hourly.temperature_2m
-    for (var i = 0; i < data.hourly.temperature_2m.length; i++) {
+    for (var i = 0; i < 24; i++) {
         var temperature = data.hourly.temperature_2m[i];
         // Ajoute la température à temperatureData.values
         temperatureData.values.push(temperature);
@@ -37,7 +37,7 @@ function updateTemperatureChart(data, hour, daysSkipped) {
             data: {
                 labels: temperatureData.labels,
                 datasets: [{
-                    label: 'Température pour la journée dans la ville sélectionnée',
+                    label: 'Température pour la journée à Lannion',
                     data: temperatureData.values,
                     borderColor: 'rgba(75, 192, 192, 1)',
                     fill: false
@@ -52,10 +52,15 @@ function updateTemperatureChart(data, hour, daysSkipped) {
             }
         });
     } else {
-        // Si le graphique existe, mettez simplement à jour ses données
+        // Si le graphique existe, on met simplement à jour ses données
         myChart.data.labels = temperatureData.labels;
         myChart.data.datasets[0].data = temperatureData.values;
         myChart.update();
     }
 }
 
+function updateGraphTitle(city) {
+    // Met à jour le titre du graphique
+    myChart.options.plugins.title.text = 'Température pour la journée à ' + city + '';
+    myChart.update();
+}
